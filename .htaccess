@@ -1,0 +1,9 @@
+# Activation du moteur de réecriture du serveur APACHE
+RewriteEngine On
+
+# Réecriture de la règle,
+# Que la reqête du client soit redirigée vers le fichier index.php du dossier public
+# ^ veut dire tout ce qui commence par
+# $ veut dire tout ce qui fini par 
+# tu vas dans dossier public et [L] arrete  
+RewriteRule ^(.*)$ public/index.php [L]
