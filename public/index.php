@@ -1,4 +1,5 @@
 <?php
+// on le déclare avant partials.head pour que title s'affiche
     $title=" Liste des films";
     $description = "Découvrez la liste complète de mes films : notes, commentaires et fiches détaillées. Répertoire cinéma mis à jour régulièrement.";
     $keywords = "Cinéma, repertoire, film, dwwm22";
