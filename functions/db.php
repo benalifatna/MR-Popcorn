@@ -52,6 +52,29 @@
          } catch (\PDOException $exception) {
             throw $exception;
         }
-              
+    
     }
+    
+    /**
+     * Cette fonction permet de récupérer tous les films de la base de données.
+     *
+     * @return array
+     */
+    function getFilms(): array {
+        $db = connectToDb();
+
+        try {
+            $req = $db->prepare("SELECT * FROM film ORDER BY created_at DESC");
+            $req->execute();
+            $films = $req->fetchAll();
+            $req->closeCursor(); // non obligatoire
+        } catch(\PDOException $exception) {
+            throw $exception;
+        }
+
+        return $films;
+    }
+    
+    
+
 ?>
