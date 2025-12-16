@@ -1,4 +1,7 @@
 <?php
+    session_start();
+?>
+<?php
 // on le déclare avant partials.head pour que title s'affiche
     $title=" Liste des films";
     $description = "Découvrez la liste complète de mes films : notes, commentaires et fiches détaillées. Répertoire cinéma mis à jour régulièrement.";
@@ -20,9 +23,18 @@
                     <i class="fa-solid fa-plus"></i>
                     Ajouter film</a>
             </div>
+
+        <?php if(isset($_SESSION['success']) && !empty($_SESSION['success'])) : ?>   
+                             <!-- Affichage du message flash -->
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <?= $_SESSION['success']; ?>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+               <?php  unset($_SESSION['success']); ?>
+            <?php endif ?>
         </main>
 
-    <?php include_once __DIR__ . "/../partials/footer.php";?>
+  <?php include_once __DIR__ . "/../partials/footer.php";?>
 
  <?php include_once __DIR__ . "/../partials/foot.php";?>
     
