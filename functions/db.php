@@ -67,7 +67,7 @@
             $req = $db->prepare("SELECT * FROM film ORDER BY created_at DESC");
             $req->execute();
             $films = $req->fetchAll();
-            $req->closeCursor(); // non obligatoire
+            $req->closeCursor(); // non obligatoire ferme le curseur à la base donnée
         } catch(\PDOException $exception) {
             throw $exception;
         }
@@ -75,6 +75,47 @@
         return $films;
     }
     
-    
+    /**
+     * Cette fonction permet de récupérer un film de la base de données
+     * en fonction de l'identifiant renseigné
+     * @param integer $filmId
+     * @return false|array
+     */
 
+     function getFilm(int $filmId): false|array {
+        $db = connectToDb();
+
+        try {
+            $req = $db->prepare("SELECT * FROM film WHERE id=:id");
+            $req ->bindValue(":id", $filmId);//considère comme un objet "->" comme "." dans document chez javascript
+
+            $req->execute();
+            $film = $req->fetch();// fetch pour récuperer 
+            $req->closeCursor(); // non obligatoire ferme le curseur à la base donnée
+        } catch(\PDOException $exception) {
+            throw $exception;
+        }
+
+        return $films;
+        
+    }
+  
+
+    function updateFilm(null|float $ratingRounded, int $filmId, array $data = []): void {
+        $db = connectToDb();
+
+        try {
+            $req = $db->prepare("UPDATE film SET title=:title, rating=:rating, comment=:comment, updated_at=now() WHERE id=:id");
+    
+            $req->bindValue(":title", $data['title']);
+            $req->bindValue(":rating", $ratingRounded);
+            $req->bindValue(":comment", $data['comment']);
+            $req->bindValue(":id", $filmId);
+    
+            $req->execute();
+            $req->closeCursor();
+        } catch (\PDOException $exception) {
+            throw $exception;
+        }
+    }
 ?>
