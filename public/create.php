@@ -182,9 +182,7 @@ session_start();
                             </div>
                             <div class="mb-3">
                                 <label for="comment">Laissez un commentaire</label>
-                                <textarea name="comment" id="comment" class="form-control" rows="4">
-                                <?= isset($_SESSION['old']['comment']) && !empty($_SESSION['old']['comment']) ? htmlspecialchars($_SESSION['old']['comment']) : '';
-                                unset($_SESSION['old']['comment']) ?></textarea>
+                                <textarea name="comment" id="comment" class="form-control" rows="4"><?= isset($_SESSION['old']['comment']) && !empty($_SESSION['old']['comment']) ? htmlspecialchars($_SESSION['old']['comment']) : ''; unset($_SESSION['old']['comment']) ?></textarea>
                             <small id="comment-counter"> 0 / 1000 caractères </small>
                         </div>
                             <!-- hidden pour le cacher  attention au espace dans value!!! -->

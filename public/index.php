@@ -1,5 +1,5 @@
 <?php
-    session_start();
+session_start();
 
     require_once __DIR__ . "/../functions/db.php";
     require_once __DIR__ . "/../functions/helpers.php";
@@ -9,7 +9,7 @@
     $films = getFilms();
    
     //var_dump($films); die () ;
-
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
 ?>
 <?php
 // on le déclare avant partials.head pour que title s'affiche
@@ -59,10 +59,14 @@
                             <div class="d-flex justify-content-start align-items-center gap-2">
                                 <a href="show.php?film_id=<?= htmlspecialchars($film['id']); ?>" class="btn btn-sm btn-dark">Voir détails</a>
                                 <a href="edit.php?film_id=<?= htmlspecialchars($film['id']); ?>" class="btn btn-sm btn-secondary">Modifier</a>
-                                <a href="delete.php" class="btn btn-sm btn-danger">Supprimer</a>
-
+                                <!-- apres avoir essayer la methode GET idem edit.php, on met en place la methode Post pour supprimer -->
+                                <form action="/delete.php" method="post">
+                                    <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['csrf_token']);?>">
+                                    <input type="hidden" name="honey_pot" value="">
+                                    <input type="hidden" name="film_id" value="<?= htmlspecialchars($film['id']);?>">
+                                    <input type="submit" class="btn btn-sm btn-danger" value="Supprimer" onclick="return confirm('Vous êtes sûr de supprimer ce film ?')">
+                                </form>
                             </div>
-
                         </article>
                        <?php endforeach  ?>
                     </div>

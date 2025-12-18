@@ -96,11 +96,19 @@
             throw $exception;
         }
 
-        return $films;
+        return $film;
         
     }
   
-
+    /**
+     * Cette fonction permet de modifier un film de la base de données
+     * en fonction de l'identifiant renseigné
+     *
+     * @param null|float $ratingRounded
+     * @param integer $filmId
+     * @param array $data
+     * @return void
+     */
     function updateFilm(null|float $ratingRounded, int $filmId, array $data = []): void {
         $db = connectToDb();
 
@@ -113,6 +121,25 @@
             $req->bindValue(":id", $filmId);
     
             $req->execute();
+            $req->closeCursor();
+        } catch (\PDOException $exception) {
+            throw $exception;
+        }
+    }
+    
+    /**
+     * Cette fonction permet de supprimer le film dans la base de données
+     *
+     * @param integer $filmId
+     * @return void
+     */
+    function deleteFilm(int $filmId): void { //void ne renvoie rien
+        $db = connectToDb();
+
+        try {
+            $req = $db->prepare("DELETE FROM film WHERE id=:id");
+            $req->bindValue(":id", $filmId);
+            $req->execute();// execute le code SQL
             $req->closeCursor();
         } catch (\PDOException $exception) {
             throw $exception;

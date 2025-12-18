@@ -56,7 +56,7 @@ if (false === $film) {
         ) {
             // Effectuer une redirection vers la page de laquelle proviennent les informations
             // Puis arrêter l'exécution du script.
-            header('Location: edit.php');
+            header("Location: edit.php?film_id={$film['id']}");
             die();
         }
         unset($_SESSION['csrf_token']);
@@ -68,7 +68,7 @@ if (false === $film) {
         if ( !isset($_POST['honey_pot']) || !empty($_POST['honey_pot']) ) {
             // Effectuer une redirection vers la page de laquelle proviennent les informations
             // Puis arrêter l'exécution du script.
-            header('Location: edit.php');
+            header("Location: edit.php?film_id={$film['id']}");
             die();
         }
         unset($_POST['honey_pot']);
@@ -119,7 +119,7 @@ if (false === $film) {
 
             // 4c. Effectuer une redirection vers la page de laquelle proviennent les informations
             // Puis arrêter l'exécution du script.
-            header('Location: edit.php');
+            header("Location: edit.php?film_id={$film['id']}");
             die();
         }
 
@@ -132,7 +132,7 @@ if (false === $film) {
         }
 
         // 12. Etablir une connexion avec la base de données
-        // 13. Effectuer la requête d'insertion du nouveau film dans la table prévue (film)
+        // 13. Effectuer la requête de modification du film dans la table prévue (film)
         updateFilm($ratingRounded, $film['id'], $_POST);
 
         // 14. Générer le message flash de succès
@@ -198,16 +198,14 @@ $_SESSION['csrf_token']= bin2hex(random_bytes(32));
                             <div class="mb-3">
                                 <label for="rating">Note / 5</label>
                                 <input type="number" min="0" max="5" step=".5" inputmode="decimal" name="rating" id="rating" class="form-control"
-                                 value="<?= isset($_SESSION['old']['rating']) && ($_SESSION['old']['rating']) != ""? htmlspecialchars($_SESSION['old']['rating']) : htmlspecialchars((string) $film['title']);
+                                 value="<?= isset($_SESSION['old']['rating']) && ($_SESSION['old']['rating']) != ""? htmlspecialchars($_SESSION['old']['rating']) : htmlspecialchars((string) $film['rating']);
                                 unset($_SESSION['old']['rating']) ?>">
                             </div>
                             <div class="mb-3">
                                 <label for="comment">Laissez un commentaire</label>
-                                <textarea name="comment" id="comment" class="form-control" rows="4">
-                                <?= isset($_SESSION['old']['comment']) && !empty($_SESSION['old']['comment']) ? htmlspecialchars($_SESSION['old']['comment']) : htmlspecialchars($film['comment']);
-                                unset($_SESSION['old']['comment']) ?></textarea>
-                            <small id="comment-counter"> 0 / 1000 caractères </small>
-                        </div>
+                                <textarea name="comment" id="comment" class="form-control" rows="4"><?= isset($_SESSION['old']['comment']) && !empty($_SESSION['old']['comment']) ? htmlspecialchars($_SESSION['old']['comment']) : htmlspecialchars($film['comment']); unset($_SESSION['old']['comment']) ?></textarea>
+                                <small id="comment-counter"> 0 / 1000 caractères </small>
+                            </div>
                             <!-- hidden pour le cacher  attention au espace dans value!!! -->
                             <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'];?>">
                             <!-- hidden pour le cacher  attention si c'est remplie alors c'est un robot qui la rempli!!! -->
